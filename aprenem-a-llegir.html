@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sona i llegeix</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eaf3ff;--card:#fff;--ink:#1d2b53;--mute:#5d6a8f;--line:#c9d9f3;--main:#3b5bdb;--on:#fff;--sun:#ffc93c;--ok:#1f9d6b;--bad:#d6455d;
+--a:#e8505b;--e:#f59f00;--i:#2f9e6e;--o:#3b82c4;--u:#8b5cf6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#111a33;--card:#1b2748;--ink:#eef3ff;--mute:#9db0dc;--line:#33437a;--main:#7c97ff;--on:#111a33;--ok:#4fd39b;--bad:#ff7d92}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#111a33;--card:#1b2748;--ink:#eef3ff;--mute:#9db0dc;--line:#33437a;--main:#7c97ff;--on:#111a33;--ok:#4fd39b;--bad:#ff7d92}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Baloo 2","Trebuchet MS",system-ui,sans-serif;font-weight:500;font-size:18px;line-height:1.4}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 18px;max-width:960px;margin:0 auto}
+h1{margin:0;font-size:1.7rem;font-weight:800}
+.stars{background:var(--sun);color:#1d2b53;border-radius:999px;padding:4px 16px;font-weight:800}
+nav{display:flex;gap:8px;padding:0 18px;max-width:960px;margin:0 auto;overflow-x:auto}
+nav button{flex:1;min-width:110px}
+button{font:inherit;color:inherit;cursor:pointer}
+.tab,.chip{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 14px;font-weight:700}
+.tab[aria-selected="true"],.chip[aria-pressed="true"]{background:var(--main);color:var(--on);border-color:var(--main)}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+main{max-width:960px;margin:0 auto;padding:18px}
+.hint{color:var(--mute);text-align:center;margin:8px 0 16px}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:14px}
+.key{width:64px;height:64px;font-size:2rem;font-weight:800;border-radius:18px;background:var(--card);border:3px solid var(--line)}
+.key.v{border-color:currentColor}
+.key[aria-pressed="true"]{background:var(--main);color:var(--on);border-color:var(--main)}
+.a{color:var(--a)}.e{color:var(--e)}.i{color:var(--i)}.o{color:var(--o)}.u{color:var(--u)}
+.key.v[aria-pressed="true"]{background:currentColor}
+.key.v[aria-pressed="true"] span{color:#fff}
+.big{display:flex;justify-content:center;gap:6px;font-size:clamp(5rem,26vw,9rem);font-weight:800;line-height:1.1;margin:8px 0;background:none;border:0;width:100%}
+.words{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.w{display:flex;align-items:center;gap:14px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:10px 16px;text-align:left;width:100%}
+.w .em{font-size:2.6rem}
+.w .tx{font-size:1.7rem;font-weight:800;letter-spacing:.04em}
+.w mark{background:var(--sun);color:#1d2b53;border-radius:6px;padding:0 3px}
+.dot{color:var(--mute);font-weight:500;padding:0 2px}
+.panel{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:18px}
+.game{text-align:center}
+.game .em{font-size:6rem;line-height:1.1}
+.game .tx{font-size:3rem;font-weight:800;letter-spacing:.06em;margin:4px 0 12px}
+.opts{display:flex;gap:10px;justify-content:center}
+.opts button{width:72px;height:72px;font-size:2rem;font-weight:800;border-radius:18px;background:var(--bg);border:3px solid var(--line)}
+.opts button.ok{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opts button.bad{background:var(--bad);color:#fff;border-color:var(--bad)}
+.msg{min-height:2em;font-weight:700;margin-top:12px}
+.go{background:var(--main);color:var(--on);border:0;border-radius:14px;padding:10px 22px;font-weight:800;margin-top:10px}
+.bar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 0 10px;color:var(--mute)}
+.bar label{display:flex;align-items:center;gap:8px}
+.note{color:var(--mute);font-size:.9rem;text-align:center;margin-top:20px}
+@media (prefers-reduced-motion:no-preference){.key,.w,.opts button{transition:transform .12s}.key:active,.w:active,.opts button:active{transform:scale(.94)}}
+</style>
+</head>
+<body>
+<header><h1>Sona i llegeix</h1><div class="stars" aria-live="polite">⭐ <span id="st">0</span></div></header>
+<nav role="tablist" aria-label="Seccions">
+<button class="tab" role="tab" data-t="lletres" aria-selected="true">Lletres</button>
+<button class="tab" role="tab" data-t="silabes" aria-selected="false">Síl·labes</button>
+<button class="tab" role="tab" data-t="paraules" aria-selected="false">Paraules</button>
+<button class="tab" role="tab" data-t="joc" aria-selected="false">Compta síl·labes</button>
+</nav>
+<main>
+<div class="bar"><label>Velocitat de la veu <input type="range" id="vel" min="0.5" max="1.1" step="0.1" value="0.8" aria-label="Velocitat de la veu"></label></div>
+<section id="v"></section>
+<p class="note" id="nov"></p>
+</main>
+<script>
+const VOC=["A","E","I","O","U"], CON=["M","P","L","S","T","N","D","B","C","F","G","R","V","Z"];
+const CLS={A:"a",E:"e",I:"i",O:"o",U:"u"};
+const MULTI=["LL","NY","TX","IG","QU","GU","SS","RR"];
+const TRAB=["PL","BL","FL","CL","GL","PR","BR","TR","DR","CR","GR","FR"];
+const FINAL=["L","M","N","R","S"];
+// paraules: [text, emoji, síl·labes]
+const W=[["POMA","🍎","po-ma"],["ROSA","🌹","ro-sa"],["SOL","☀️","sol"],["LLUNA","🌙","llu-na"],["GAT","🐱","gat"],["CARGOL","🐌","car-gol"],["PILOTA","⚽","pi-lo-ta"],["MEL","🍯","mel"],["CASA","🏠","ca-sa"],["NAS","👃","nas"],["ELEFANT","🐘","e-le-fant"],["FORMIGA","🐜","for-mi-ga"],["BICICLETA","🚲","bi-ci-cle-ta"],["TORTUGA","🐢","tor-tu-ga"],["SUMA","➕","su-ma"],["PLOMA","🪶","plo-ma"],["MOTO","🏍️","mo-to"],["LLIBRE","📖","lli-bre"],["TREN","🚆","tren"],["BRUIXA","🧙‍♀️","bru-xa"],["PEIX","🐟","peix"],["DIMONI","😈","di-mo-ni"],["SALAMANDRA","🦎","sa-la-man-dra"],["UNA","1️⃣","u-na"],["PLAT","🍽️","plat"],["ALA","🪽","a-la"]];
+const LIST=W.map(([t,e,s])=>({t,e,s:s.split("-")}));
+let st=0, cur="lletres", sel={c:"M",v:"A",mode:"dir"}, game=null;
+const $=s=>document.querySelector(s), view=$("#v");
+
+/* ---- so ---- */
+const Sons={voice:null,
+ init(){const f=()=>{this.voice=speechSynthesis.getVoices().find(v=>v.lang.toLowerCase().startsWith("ca"))||null};if("speechSynthesis"in window){f();speechSynthesis.onvoiceschanged=f}else{$("#nov").textContent="Aquest navegador no pot parlar. Prova Chrome, Edge o Safari."}},
+ say(text,rate){return new Promise(res=>{if(!("speechSynthesis"in window))return res();
+  const u=new SpeechSynthesisUtterance(text);u.lang="ca-ES";if(this.voice)u.voice=this.voice;u.rate=rate||+$("#vel").value;u.onend=res;u.onerror=res;speechSynthesis.speak(u)})},
+ stop(){if("speechSynthesis"in window)speechSynthesis.cancel()},
+ // fonema aproximat: sons continus allargats, la resta amb vocal de suport
+ fonema(l){const x=l.toLowerCase();const cont={m:"mmm",n:"nnn",l:"lll",s:"sss",f:"fff",r:"rrr",v:"vvv",z:"zzz"};
+  const vocals={a:"a",e:"e",i:"i",o:"o",u:"u"};
+  const alt={ll:"ll",ny:"ny",tx:"tx",ig:"ig",qu:"k",gu:"g",ss:"ss",rr:"rr"};
+  this.stop();this.say(vocals[x]||alt[x]||cont[x]||x+"e",.7)},
+ async paraula(w){this.stop();for(const s of w.s){await this.say(s,.7)}await this.say(w.t.toLowerCase(),.8)},
+ sil(s){this.stop();this.say(s.toLowerCase(),.7)}
+};
+const spokenWordText=w=>w.t.toLowerCase();
+
+/* ---- vistes ---- */
+function keys(arr,vocal,key,sel){return arr.map(l=>`<button class="key ${vocal?"v "+CLS[l]:""}" data-k="${key}" data-l="${l}" aria-pressed="${sel===l}" aria-label="${vocal?"Vocal":"Consonant"} ${l}"><span>${l}</span></button>`).join("")}
+function render(){Sons.stop();document.querySelectorAll(".tab").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===cur));
+ ({lletres,silabes,paraules,joc})[cur]()}
+function lletres(){
+ view.innerHTML=`<p class="hint">Toca una lletra i escolta el so que fa.</p>
+ <h2 class="hint">Vocals</h2><div class="row">${VOC.map(l=>`<button class="key v ${CLS[l]}" data-f="${l}" aria-label="Vocal ${l}"><span>${l}</span></button>`).join("")}</div>
+ <h2 class="hint">Consonants</h2><div class="row">${CON.map(l=>`<button class="key" data-f="${l}" aria-label="Consonant ${l}">${l}</button>`).join("")}</div>
+ <h2 class="hint">Grups de lletres</h2><div class="row">${MULTI.map(l=>`<button class="key" style="width:auto;padding:0 14px" data-f="${l}">${l}</button>`).join("")}</div>`}
+function mk(){const {c,v,mode}=sel;return mode==="dir"?c+v:mode==="inv"?v+c:c+v}
+function silabes(){
+ const m=sel.mode, cons=m==="trab"?TRAB:m==="inv"?FINAL:CON;
+ if(!cons.includes(sel.c))sel.c=cons[0];
+ const s=m==="inv"?sel.v+sel.c:sel.c+sel.v;
+ const ws=LIST.filter(w=>w.s.some(x=>x.toUpperCase()===s));
+ const hl=(w)=>w.s.map(x=>x.toUpperCase()===s?`<mark>${x.toUpperCase()}</mark>`:x.toUpperCase()).join('<span class="dot">·</span>');
+ view.innerHTML=`<div class="row"><button class="chip" data-m="dir" aria-pressed="${m==="dir"}">Directes (MA)</button><button class="chip" data-m="inv" aria-pressed="${m==="inv"}">Inverses (AL)</button><button class="chip" data-m="trab" aria-pressed="${m==="trab"}">Travades (PLA)</button></div>
+ <p class="hint">Tria una consonant i una vocal.</p>
+ <div class="row">${keys(cons,0,"c",sel.c)}</div><div class="row">${keys(VOC,1,"v",sel.v)}</div>
+ <button class="big" data-sil="${s}" aria-label="Escolta ${s}"><span>${s[0]=="" ?"":s.slice(0,-1)}</span><span class="${m==="inv"?"":CLS[s.slice(-1)]}">${s.slice(-1)}</span></button>
+ <p class="hint">${ws.length?`Paraules amb ${s}:`:`Cap paraula amb ${s} per ara. Prova’n una altra.`}</p>
+ <div class="words">${ws.map(w=>`<button class="w" data-w="${w.t}"><span class="em">${w.e}</span><span class="tx">${hl(w)}</span></button>`).join("")}</div>`;
+ Sons.sil(s)}
+function paraules(){
+ view.innerHTML=`<p class="hint">Toca una paraula: sentiràs primer les síl·labes i després la paraula sencera.</p>
+ <div class="words">${LIST.map(w=>`<button class="w" data-w="${w.t}"><span class="em">${w.e}</span><span class="tx">${w.s.map(x=>x.toUpperCase()).join('<span class="dot">·</span>')}</span></button>`).join("")}</div>`}
+function joc(){
+ const w=LIST[Math.floor(Math.random()*LIST.length)];game={w,done:false};
+ view.innerHTML=`<div class="panel game"><p class="hint">Digues la paraula picant de mans. Quantes síl·labes té?</p>
+ <button class="w" style="display:inline-flex;margin:0 auto" data-w="${w.t}" aria-label="Escolta la paraula"><span class="em" style="font-size:5rem">${w.e}</span></button>
+ <div class="tx">${w.t}</div>
+ <div class="opts">${[1,2,3,4].map(n=>`<button data-n="${n}">${n}</button>`).join("")}</div>
+ <div class="msg" id="msg" aria-live="polite"></div><button class="go" id="next" hidden>Una altra paraula</button></div>`;
+ Sons.say(w.t.toLowerCase())}
+
+/* ---- events ---- */
+document.addEventListener("click",e=>{
+ const t=e.target.closest("button");if(!t)return;
+ if(t.classList.contains("tab")){cur=t.dataset.t;render();return}
+ if(t.dataset.f){Sons.fonema(t.dataset.f);return}
+ if(t.dataset.m){sel.mode=t.dataset.m;silabes();return}
+ if(t.dataset.k){sel[t.dataset.k]=t.dataset.l;silabes();return}
+ if(t.dataset.sil){Sons.sil(t.dataset.sil);return}
+ if(t.dataset.w){Sons.paraula(LIST.find(w=>w.t===t.dataset.w));return}
+ if(t.dataset.n&&game&&!game.done){const n=+t.dataset.n,ok=n===game.w.s.length,m=$("#msg");
+  if(ok){game.done=true;t.classList.add("ok");st++;$("#st").textContent=st;m.textContent="Molt bé! "+game.w.s.map(x=>x.toUpperCase()).join(" · ");$("#next").hidden=false;Sons.paraula(game.w)}
+  else{t.classList.add("bad");m.textContent="Torna-ho a provar: pica de mans amb la paraula.";Sons.paraula(game.w)}return}
+ if(t.id==="next"){joc()}
+});
+Sons.init();render();
+</script>
+</body>
+</html>
